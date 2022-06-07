@@ -4,7 +4,7 @@ import pandas as pd
 
 app = Dash(__name__)
 
-app.layout = html.Div(className = 'top_metrics')
+app.layout = html.Div(className = 'right_content')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
