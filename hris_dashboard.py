@@ -2,8 +2,8 @@ from dash import Dash, html, dcc
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
-import pyodbc
-import setting
+# import pyodbc
+# import setting
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -75,7 +75,7 @@ fig_afiliasi = px.bar(data_afiliasi
 					  ,color_discrete_map={'IM' : 'red'}
 					  )
 
-app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 
 # app.layout = html.Div([
 #
@@ -157,63 +157,85 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
-content = html.Div(id="page-content", style=CONTENT_STYLE
-                        ,children=[
-dbc.Container(
+content_children = dbc.Container(
+                [
+                    dbc.Row(
+                        dbc.CardGroup(
+                            [
+                                dbc.Card([
+                                    dbc.CardHeader("Karyawan PNM Kantor Pusat", className="card-title")
+                                    ,dbc.CardBody(
+                                        [
+                                            #html.H5("Karyawan Kantor Pusat", className="card-title"),
+                                            html.P(
+                                              data['PNM_KP'],
+                                                className="card-text",
+                                            )
+                                        ]
+                                    )
 
+                                ]
 
-				dbc.Row(
-						 [
-			                # dbc.Col(dcc.Graph(figure = fig_holding), width=6)
-			                # ,dbc.Col(dbc.Table.from_dataframe(data_holding, striped=True, bordered=True, hover=True), width=6, align='center')
+                                )
+                                ,dbc.Card([
+                                    dbc.CardHeader("Karyawan PNM Cabang UlaMM", className="card-title")
+                                    ,dbc.CardBody(
+                                        [
+                                            #html.H5("Karyawan Cabang UlaMM", className="card-title"),
+                                            html.P(
+                                              data['PNM_ULAMM'],
+                                                className="card-text",
+                                            )
+                                        ]
+                                    )
+                                ]
 
+                                )
+                                ,dbc.Card([
+                                    dbc.CardHeader("Karyawan Cabang Mekaar", className="card-title")
+                                    ,dbc.CardBody(
+                                        [
+                                           # html.H5("Karyawan Cabang Mekaar", className="card-title"),
+                                            html.P(
+                                                data['PNM_MEKAAR'],
+                                                className="card-text",
+                                            )
+                                        ]
+                                    )
 
-							 dbc.Col(
+                                ]
 
-								dbc.Card(
-
-									[
-										dbc.CardHeader("Karyawan PNM Group", style={'text-align' : 'center'})
-										,dbc.CardBody(
+                            )
+                            ]
+                        )
+                    )
+                    ,dbc.Row(
+                        [
+                            dbc.Col(
+                                [
+                                        #dbc.CardHeader("Karyawan PNM Group", style={'text-align' : 'center'})
+										dbc.CardBody(
 											[
 												dcc.Graph(figure = fig_holding)
-												,dbc.Table.from_dataframe(data_holding, striped=True, bordered=True, hover=True)
-
-											]
-										)
-									]
-								)
-								 ,width=6
-							 )
-							 ,dbc.Col(
-
-								dbc.Card(
-
-									[
-										dbc.CardHeader("Karyawan PNM Afiliasi", style={'text-align' : 'center'})
-										,dbc.CardBody(
-											[
-												dcc.Graph(figure = fig_afiliasi)
-												,dbc.Table.from_dataframe(data_afiliasi, striped=True, bordered=True, hover=True)
-
-											]
-										)
-									]
-								)
-							 	,width=6
-						    )
-           				 ]
-
-
-					)
-
-
-		        )
-
+												#,dbc.Table.from_dataframe(data_holding, striped=True, bordered=True, hover=True)
+ 											]
+ 										)
+                                ]
+                            )
 
                         ]
+                    )
+                ]
 
-             )
+
+
+)
+
+
+content = html.Div(id="page-content", style=CONTENT_STYLE
+                        ,children=[content_children]
+
+           			)
 
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
